@@ -79,9 +79,9 @@ class TestTokens(AbstractSSOTesting):
         self.assertIsInstance(t.etag_character, str)
         self.assertIsInstance(t.etag_corp, str)
         self.assertIsInstance(t.etag_alliance, str)
-        self.assertLess(200, len(t.object_contacts_pilots))
-        self.assertLess(50, len(t.object_contacts_corps))
-        self.assertLess(50, len(t.object_contacts_alliances))
+        self.assertEqual(self.assert_total_contacts_pilots, len(t.object_contacts_pilots))
+        self.assertEqual(self.assert_total_contacts_corp, len(t.object_contacts_corps))
+        self.assertEqual(self.assert_total_contacts_alliance, len(t.object_contacts_alliances))
         self.db.query(tb_contacts_pilots).filter(tb_contacts_pilots.token == t.token_id,
                                                  tb_contacts_pilots.character_id == self.assert_char_id,
                                                  tb_contacts_pilots.standing == 10.0).one()

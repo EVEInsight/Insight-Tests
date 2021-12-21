@@ -8,7 +8,8 @@ import unittest
 
 def sso_variables():
     yield from ["sso_client_id", "sso_secret_key", "sso_callback_url", "sso_refresh_token", "sso_char_id",
-                "sso_corp_id", "sso_alliance_id"]
+                "sso_corp_id", "sso_alliance_id", "sso_total_contacts_pilots", "sso_total_contacts_corp",
+                "sso_total_contacts_alliance"]
 
 
 def missing_sso_environmental():
@@ -40,6 +41,9 @@ class AbstractSSOTesting(DatabaseTesting.DatabaseTesting):
         self.assert_sso_login = "https://login.eveonline.com/oauth/authorize?response_type=code&redirect_uri={}" \
                                 "&client_id={}&scope=esi-characters.read_contacts.v1%20esi-corporations.read_" \
                                 "contacts.v1%20esi-alliances.read_contacts.v1".format(self.callback_url, self.client_id)
+        self.assert_total_contacts_pilots = int(os.environ.get("sso_total_contacts_pilots")) # assuming pilot, corp, and alliance are tracked
+        self.assert_total_contacts_corp = int(os.environ.get("sso_total_contacts_corp")) # assuming pilot, corp, and alliance are tracked
+        self.assert_total_contacts_alliance = int(os.environ.get("sso_total_contacts_alliance")) # assuming pilot, corp, and alliance are tracked
 
     def tearDown(self):
         super().tearDown()

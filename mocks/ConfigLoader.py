@@ -1,7 +1,11 @@
 from InsightUtilities.ConfigLoader import ConfigLoader
+import os
 
 class ConfigLoader(ConfigLoader):
     def _load_all_options(self):
+        self.parse_str("CCP_CLIENT_ID", "ccp_developer", "client_id", False, os.environ.get("sso_client_id"), True)
+        self.parse_str("CCP_SECRET_KEY", "ccp_developer", "client_id", False, os.environ.get("sso_secret_key"), True)
+        self.parse_str("CCP_CALLBACK_URL", "ccp_developer", "client_id", False, os.environ.get("sso_callback_url"), True)
         self.parse_str("DISCORD_TOKEN", "discord", "token", False, "UnitTestingTokenBlank", True)
         self.parse_int("LIMITER_GLOBAL_SUSTAIN_TICKETS", "NULL", "NULL", False, 500, True)
         self.parse_int("LIMITER_GLOBAL_SUSTAIN_INTERVAL", "NULL", "NULL", False, 500, True)

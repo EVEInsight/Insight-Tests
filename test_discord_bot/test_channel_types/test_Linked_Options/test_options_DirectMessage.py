@@ -41,16 +41,16 @@ class TestOptionsDirectMessage_AddNewToken(AbstractBotReplyTesting.AbstractBotRe
     def test_InsightOption_addTokenValidCallBack(self):
         self.reply("https://github.eveinsight.net/Insight/callback?code=ExampleCallbackAuthCode")
         self.reply("1")
-        self.reply("0")
+        self.reply("1")
         self.reply("1")
         self.helper_future_run_call(self.options.InsightOption_addToken(self.message))
         t = self.helper_get_row(1)
         self.assertEqual(self.assert_char_id, t.character_id)
-        self.assertEqual(None, t.corporation_id)
+        self.assertEqual(self.assert_corp_id, t.corporation_id)
         self.assertEqual(self.assert_alliance_id, t.alliance_id)
-        self.assertLess(30, len(t.object_contacts_pilots))
-        self.assertLess(10, len(t.object_contacts_corps))
-        self.assertLess(10, len(t.object_contacts_alliances))
+        self.assertEqual(self.assert_total_contacts_pilots, len(t.object_contacts_pilots))
+        self.assertEqual(self.assert_total_contacts_corp, len(t.object_contacts_corps))
+        self.assertEqual(self.assert_total_contacts_alliance, len(t.object_contacts_alliances))
 
 
 class TestOptionsDirectMessage_TokenOperations(AbstractBotReplyTesting.AbstractBotReplyTesting):
