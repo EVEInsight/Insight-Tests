@@ -1,6 +1,6 @@
 from tests.test_database.test_db_tables.test_eve import AbstractTableRowTesting, AbstractTestBase
 from database.db_tables.eve import base_objects
-from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.exc import ArgumentError
 import unittest
 
 
@@ -25,7 +25,7 @@ class TestTableRow(AbstractTableRowTesting.AbstractTableRowTesting):
             self.row.primary_key_row()
 
     def test_get_row(self):
-        with self.assertRaises(InvalidRequestError):
+        with self.assertRaises(ArgumentError):
             self.helper_row.get_row(1, self.service)
 
     @unittest.SkipTest
