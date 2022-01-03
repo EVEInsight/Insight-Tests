@@ -53,7 +53,7 @@ class CharactersTestNameOnly(DatabaseTesting.DatabaseTesting):
         self.assertEqual(tb_characters.missing_id_chunk_size(), 1000)
 
     def test_missing_name_objects(self):
-        self.assertEqual(len(self.id_lines), len(tb_characters.missing_name_objects(self.service)))
+        self.assertEqual(len(self.id_lines), len(tb_characters.missing_name_objects(self.service, count_limit=500000)))
 
     def test_split_lists(self):
         item_count = random.randint(1500, 2000)

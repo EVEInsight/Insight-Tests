@@ -1,4 +1,4 @@
-from tests.abstract import DatabaseTesting
+from tests.abstract import DatabaseTesting, AsyncTesting
 from service import EVEsso
 import os
 from InsightUtilities import InsightSingleton, ColumnEncryption
@@ -25,9 +25,10 @@ def missing_sso_message():
 
 
 @unittest.skipIf(missing_sso_environmental(), missing_sso_message())
-class AbstractSSOTesting(DatabaseTesting.DatabaseTesting):
+class AbstractSSOTesting(DatabaseTesting.DatabaseTesting, AsyncTesting.AsyncTesting):
     def setUp(self):
-        super().setUp()
+        DatabaseTesting.DatabaseTesting.setUp(self)
+        AsyncTesting.AsyncTesting.setUp(self)
         ColumnEncryption()._set_random_key()
         self.sso = EVEsso.EVEsso(self.service)
         self.service.sso = self.sso
@@ -46,7 +47,8 @@ class AbstractSSOTesting(DatabaseTesting.DatabaseTesting):
         self.assert_total_contacts_alliance = int(os.environ.get("sso_total_contacts_alliance")) # assuming pilot, corp, and alliance are tracked
 
     def tearDown(self):
-        super().tearDown()
+        DatabaseTesting.DatabaseTesting.tearDown(self)
+        AsyncTesting.AsyncTesting.tearDown(self)
         InsightSingleton.clear_instance_references()
 
     def helper_get_row(self, discord_user)->tb_tokens:

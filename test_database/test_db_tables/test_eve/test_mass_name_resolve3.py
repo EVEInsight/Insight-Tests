@@ -25,7 +25,9 @@ class TestMassNameResolve3(test_mass_name_resolve.TestMassNameResolve):
         return len(self.f_id_systems) + len(self.f_id_constellations) + len(self.f_id_regions) + len(self.f_id_types)
 
     def test_api_mass_name_resolve_valid(self):
-        self.assertEqual(len(name_resolver.api_mass_name_resolve(self.service)), 0)
+        error_4xx = {}
+        name_resolver.api_mass_name_resolve(self.service, error_ids_4xx=error_4xx)
+        self.assertEqual(len(error_4xx.keys()), 0)
         for i in self.iterate_assert_file(self.f_id_systems, 'name_systems.txt'):
             with self.subTest(system_id=i[0]):
                 self.assertEqual(tb_systems.get_row(int(i[0]), self.service).get_name(), i[1])

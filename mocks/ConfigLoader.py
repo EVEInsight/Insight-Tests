@@ -29,3 +29,5 @@ class ConfigLoader(ConfigLoader):
         self.parse_int("LIMITER_USER_BURST_INTERVAL", "NULL", "NULL", False, 500, True)
         self.parse_str("ZK_REDISQ_URL", "NULL", "NULL", False, "https://redisq.zkillboard.com/listen.php", True)
         self.parse_str("ZK_WS_URL", "NULL", "NULL", False, "wss://zkillboard.com/websocket/", True)
+        self.parse_bool("WEBSERVER_ENABLED", "NULL", "NULL", False, "FALSE", True)
+        self.parse_bool("ZK_ID_RESET", "NULL", "NULL", False, "FALSE", True)

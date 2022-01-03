@@ -30,7 +30,9 @@ class TestMassNameResolve(DatabaseTesting.DatabaseTesting):
         self.assertEqual(name_resolver.missing_count(self.service), self.helper_len_ids())
 
     def test_api_mass_name_resolve_valid(self):
-        self.assertEqual(len(name_resolver.api_mass_name_resolve(self.service)), 0)
+        error_4xx = {}
+        name_resolver.api_mass_name_resolve(self.service, error_ids_4xx=error_4xx)
+        self.assertEqual(len(error_4xx.keys()), 0)
         for i in self.iterate_assert_file(self.f_id_chars, 'name_characters.txt'):
             with self.subTest(char_id=i[0]):
                 self.assertEqual(tb_characters.get_row(int(i[0]), self.service).get_name(), i[1])
@@ -42,7 +44,11 @@ class TestMassNameResolve(DatabaseTesting.DatabaseTesting):
                 self.assertEqual(tb_alliances.get_row(int(i[0]), self.service).get_name(), i[1])
 
     def test_api_mass_name_resolve_invalid(self):
-        self.assertEqual(len(name_resolver.api_mass_name_resolve(self.service)), 0)
+        error_4xx = {}
+        name_resolver.api_mass_name_resolve(self.service, error_ids_4xx=error_4xx)
+        self.assertEqual(len(error_4xx.keys()), 0)
+        error_4xx = {}
         self.db.add(tb_characters(55))
         self.db.commit()
-        self.assertNotEqual(len(name_resolver.api_mass_name_resolve(self.service)), 0)
+        name_resolver.api_mass_name_resolve(self.service, error_ids_4xx=error_4xx)
+        self.assertNotEqual(len(error_4xx.keys()), 0)

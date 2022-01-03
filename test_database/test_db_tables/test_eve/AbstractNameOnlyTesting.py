@@ -71,7 +71,7 @@ class AbstractNameOnlyTesting(AbstractTestBase.AbstractTestBase):
             else:
                 need_names.append(row)
             self.db.add(row)
-        rows = self.helper_row.missing_name_objects(self.service)
+        rows = self.helper_row.missing_name_objects(self.service, count_limit=500000)
         self.assertEqual(len(rows), len(need_names))
         for r in need_names:
             self.assertTrue(r.get_name() in [i.get_name() for i in need_names])

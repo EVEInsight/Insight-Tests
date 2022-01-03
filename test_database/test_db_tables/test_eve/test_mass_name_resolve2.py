@@ -19,7 +19,9 @@ class TestMassNameResolve2(test_mass_name_resolve.TestMassNameResolve):
         self.db.commit()
 
     def test_api_mass_name_resolve_valid(self):
-        self.assertEqual(len(name_resolver.api_mass_name_resolve(self.service)), 0)
+        error_4xx = {}
+        name_resolver.api_mass_name_resolve(self.service, error_ids_4xx=error_4xx)
+        self.assertEqual(len(error_4xx.keys()), 0)
         for i in self.db.query(tb_characters).all():
             self.assertIsInstance(i.get_name(), str)
         for i in self.db.query(tb_corporations).all():
